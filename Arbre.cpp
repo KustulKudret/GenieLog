@@ -1,6 +1,33 @@
+ /*     Copyright (C) 2016 Benhachani Mohamed
+*
+ *   This program is free software; you can redistribute it and/or
+  *  modify it under the terms of the GNU Lesser General Public
+   * License as published by the Free Software Foundation; either
+    *version 2.1 of the License, or (at your option) any later version.
+*
+ *   This program is distributed in the hope that it will be useful,
+  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    *Lesser General Public License for more details.
+*
+ *   You should have received a copy of the GNU Lesser General Public
+  *  License along with this program; if not, write to the Free Software
+   * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+/*!
+ * \file Arbre.cpp
+ * \brief Fonction lié a Arbre
+ * \author Benhachani Mohamed
+ * \version 1.0
+ */
 #include "Arbre.h"
-
 //----------------------Une petite fonction pour converir un en string-----------
+ /*!
+     *  \brief Concatène un entier a un string 
+     *
+     *  \param[in,out] string & s : string auquel je concatène l'entier
+     *  \param[in] string & s : l'entier que je concatène au string
+     */
 void to_string(string & s,int a){
 
 	if(a!=0){
@@ -10,11 +37,18 @@ void to_string(string & s,int a){
 }
 
 //----------------------Construction et Destruction de l'Arbre-----------
-
+	/*!
+	*  \brief Constructeur de la classe Arbre.
+	*/
 Arbre::Arbre(){
 
 	R=NULL;
 }
+ /*!
+     *  \brief Fonction qui supprime les Noeud parcouru apartir de R
+
+     *  \param[in] Noeud * R : Noeud pour le debut du parcours de l'arbre
+     */
 void supprime(Noeud * R){
 
 	if (R!= NULL){
@@ -24,6 +58,9 @@ void supprime(Noeud * R){
 		delete R;
 	}
 }
+     /*!
+     *  \brief Destructeur de la classe Arbre.
+     */
 Arbre::~Arbre(){
 
 	supprime(R);
@@ -32,7 +69,13 @@ Arbre::~Arbre(){
 
 //----------------------Saisie d'un Nouveau Noeud---------------------
 
-//----------------------Creation est retour d'un nouveau Noeud
+    /*!
+     *  \brief Fonction qui crée est retourne un nouveau Noeud
+     *
+     *  \param[in] int & imp : entier représentant l'importance du nouveau Noeud
+     *  \param[in] string & info : chaine de caractere contenant l'opérande ou l'opérateur
+     *  \return Un pointeur vers le nouveau Noeud
+     */
 Noeud * NN(int & imp,string & info){
 	Noeud * tmp=new Noeud;
 	tmp->imp=imp;
@@ -42,6 +85,14 @@ Noeud * NN(int & imp,string & info){
 	return tmp;
 }
 //----------------------Insertion dans l'arbre d'un nouveau Noeud-----------
+    /*!
+     *  \brief Fonction qui insert un nouveau Noeud dans l'arbre apartir du noeud R
+
+     *  \param[in] Noeud * R : Noeud pour le debut du parcours de l'arbre
+     *  \param[in] int & imp : entier représentant l'importance du nouveau Noeud
+     *  \param[in] string & info : chaine de caractere contenant l'opérande ou l'opérateur
+     *  \return True si le Noeud a était inseré False sinon
+     */
 bool insert(Noeud * R,int & imp,string & info){
 
 	if(R->imp < imp){				//Si le Noeud courant est inferieur au nouveau alors
@@ -66,6 +117,12 @@ bool insert(Noeud * R,int & imp,string & info){
 	} 
 	return false;
 }
+    /*!
+     *  \brief Fonction qui insert un nouveau Noeud dans l'arbre
+     *
+     *  \param[in] int & imp : entier représentant l'importance du nouveau Noeud
+     *  \param[in] string & info : chaine de caractere contenant l'opérande ou l'opérateur
+     */
 void Arbre::saisie(string info,int imp){
 	if (R== NULL)				//Si la racinne est NULL 
 		R=NN(imp,info);			//je met le noeud a racinne 
@@ -80,6 +137,13 @@ void Arbre::saisie(string info,int imp){
 	}
 }
 //---------------------------------Analyse d'une chaine de caractere, et insertion dans l'arbre
+  /*!
+     *  \brief Methode qui renvoie l'importance d'un operateur
+     *
+     *  \param[in] char a   : Operateur
+     *  \return Un entier qui représente l'importance de l'operateur
+     */
+	
 int Arbre::importance(char car){
 
 	if(car == '-' || car == '+' || car == '%')
@@ -93,6 +157,15 @@ int Arbre::importance(char car){
 
 
 }
+  /*!
+     *  \brief Methode qui permet de remplir l'Arbre Arithmetique apartir d'une expression, tant que cette expression est correcte.
+     *  En cas d'expession Arithmetique incorrecte le contenu de l'Arbre n'est pas detruit.
+     *  \param[in] string exp : expression Arithmetique
+     *  \return true si l'expression Arithmetique est juste
+     *  false sinon.
+    
+     */
+	
 bool Arbre::Prior(string exp){
 
 	string nomf="";	
@@ -179,6 +252,13 @@ bool Arbre::Prior(string exp){
 	return true;			
 
 }
+    /*!
+     *  \brief Methode qui permet de remplir l'Arbre Arithmetique apartir d'une expression, tant que cette expression est correcte, si elle n'est pas correcte le contenu l'arbre est détruit.
+     *
+     *  \param[in] string exp : expression Arithmetique
+     *  \return true si l'expression Arithmetique est juste
+     *  false sinon
+     */
 bool Arbre::Arithmetique(string exp){
 
 	bool no_error=Prior(exp);
@@ -192,7 +272,10 @@ bool Arbre::Arithmetique(string exp){
 }
 
 //----------------------Affiche-----------------------------------
-
+  /*!
+     *  \brief Affiche un Arbre apartir du Noeud R avec un parcours en suffixe.
+     *  \param[in] Noeud * R : Noeud que parcours la fonction
+     */
 void aff(Noeud * R){
 
 	if (R!= NULL){
@@ -203,6 +286,9 @@ void aff(Noeud * R){
 			
 	}
 }
+    /*!
+     *  \brief Affiche l'Arbre avec un parcours en suffixe.
+     */
 void Arbre::affiche(){
 
 	aff(R);
@@ -211,6 +297,13 @@ void Arbre::affiche(){
 
 //----------------------Calcule du resultat ---------------------
 		//------------------Fonction d'opération----------
+    /*!
+     *  \brief Fonction qui revoie a puissance b
+     *
+     *  \param[in] int a : entier a
+     *  \param[in] int b : entier b exposant de a
+     *  \return a puissance b
+     */
 long int puissance(int a,int b){
 	
 	long int resultat=1;
@@ -221,6 +314,15 @@ long int puissance(int a,int b){
 	return resultat;
 }
 		//--------------------Fin des fonction d'opération-------------
+    /*!
+     *  \brief Fonction qui revoie le resultat de l'operation que represente le caractère operateur de a et b.
+     *
+     *  \param[in] long int a : entier a
+     *  \param[in] char operateur : operation
+     *  \param[in] long int b : entier b
+     *  \param[out] bool & no_error : True si il y'a une error False sinon
+     *  \return le resultat de l'operation que represente le caractère operateur de a et b.
+     */
 long int calcul(long int a,char operateur,long int b,bool & no_error){
 
 	switch(operateur){
@@ -252,6 +354,14 @@ long int calcul(long int a,char operateur,long int b,bool & no_error){
 cerr << "Il impossible de faire " << a << " " << operateur << " "<< b << "cette operation a retourner 0"<<endl;
 	return 0;
 }
+    /*!
+     *  \brief Fonction qui revoie le resultat de l'operation que represente le caractère operateur de a et b.
+     *
+     *  \param[in] Matrice * a : Matrice a
+     *  \param[in] char operateur : operation
+     *  \param[in] Matrice * b : Matrice b
+     *  \return Un pointeur vers une Matrice resultante de l'operation que represente le caractère operateur de a et b.
+     */
 Matrice * calcul(Matrice * a,char operateur,Matrice * b){
 
 	Matrice * tmp ;
@@ -289,6 +399,14 @@ Matrice * calcul(Matrice * a,char operateur,Matrice * b){
 	delete b ;
 	return NULL;
 }
+/*!
+     *  \brief Fonction qui revoie le resultat de l'operation operateur de a et b.
+     *
+     *  \param[in] int a : entier a
+     *  \param[in] char operateur : operation
+     *  \param[in] Matrice * b : Matrice b
+     *  \return Un pointeur vers une Matrice resultante de l'operation que represente le caractère operateur de a et b.
+     */
 Matrice * calcul(int a,char operateur,Matrice * b){
 
 	Matrice * tmp ;
@@ -311,13 +429,27 @@ Matrice * calcul(int a,char operateur,Matrice * b){
 	cerr << "Il impossible de faire " << a << " " << operateur << " une Matrice cette operation a donc etait annule"<<endl;
 	return b;
 }
+/*!
+     *  \brief Fonction qui revoie le resultat de l'operation operateur de a et b.
+     *
+     *  \param[in] int b : entier b
+     *  \param[in] char operateur : operation
+     *  \param[in] Matrice * a : Matrice a
+     *  \return Un pointeur vers une Matrice resultante de l'operation que represente le caractère operateur de a et b.
+     */
 Matrice * calcul(Matrice * a,char operateur,int b){
 
 	return calcul(b,operateur,a);
 }
 
 
-
+    /*!
+     *  \brief Parcours l'arbre est realise les operation lié au Matrice
+     *
+     *  \param[in] Noeud * R : Noeud que parcours la fonction
+     *  \param[out] bool & no_error : True si il y'a une error False sinon
+     *  \return le resultante au parcours 
+     */
 
 Matrice * opere_Matrice(Noeud * R,bool & no_error){
 
@@ -353,7 +485,14 @@ Matrice * opere_Matrice(Noeud * R,bool & no_error){
 	return new Matrice(R->info);
 		
 } 
-
+  /*!
+     *  \brief Parcours l'arbre est realise les operation composer d'Entier
+     *
+     *  \param[in] Noeud * R : Noeud que parcours la fonction
+     *  \param[in,out] bool & c : Resultat des operation entre entier
+     *  \param[out] bool & no_error : True si il y'a une error False sinon
+     *  \return True si l'operation est entre deux entier False sinon
+     */
 bool opere(Noeud * R, int & c,bool & no_error){
 	
 	if (R->fg!=NULL && R->fd!=NULL){
@@ -377,27 +516,47 @@ bool opere(Noeud * R, int & c,bool & no_error){
 	return (R->info[0] >= '0' && R->info[0] <= '9');
 		
 }
+   /*!
+     *  \brief Renvoie une Matrice résultante de l'expression.
+     *
+     *  \return La Matrice Resulatante  de l'expression Arithmetique
+     */
 Matrice * Arbre::resultat(){
-	
-	int c=0;
-	bool no_error=true;
-	opere(R,c,no_error);//Je fait toute les operation qui implique des int
-	
+
 	Matrice * resultante=NULL;
-	if(no_error){
+	if(R != NULL){
 		if (R->fg != NULL && R->fd != NULL){
+			int c=0;
+			bool no_error=true;
+			opere(R,c,no_error);//Je fait toute les operation qui implique des int
+	
 
-			resultante = opere_Matrice(R,no_error);
+			if(no_error){
+				if (R->fg != NULL && R->fd != NULL){
+
+					resultante = opere_Matrice(R,no_error);
+
+				}
+				if(resultante==NULL && no_error){
+					resultante=new Matrice(1,1);
+					resultante -> inserer(0, 0,c);
+				}
+			}
+		}
+		else{
+			if(R->info[0] >= '0' && R->info[0] <= '9'){
+				resultante=new Matrice(1,1);
+				resultante -> inserer(0, 0,atoi(&R->info[0]));
+
+			}
+			else
+				resultante=new Matrice(R->info);
 
 		}
-		if(resultante==NULL && no_error){
-			resultante=new Matrice(1,1);
-			resultante -> inserer(0, 0,c);
-		}
+		supprime(R);
+		R=NULL;
+
 	}
-	supprime(R);
-	R=NULL;
-
 	return resultante;
 }
 
