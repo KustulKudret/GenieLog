@@ -112,8 +112,12 @@ void test( int nbr_l, double densite )
 	operation = "A^t";
 	Arithmetique.Arithmetique(operation);
 	res = Arithmetique.resultat();
+	operation="(((((A+B)#A)*B)*(1+2*3^4/18+5*7+9+21*3/7+9*3^2-5-2-5^2*2/5+1))^2)^t";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
 	if(res != NULL)
 		delete res;
+
 	remove("A");
 	remove("B");
 }
