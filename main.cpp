@@ -14,9 +14,109 @@
   *  License along with this program; if not, write to the Free Software
    * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
+ #include <iostream>
 #include <fstream>
+#include <time.h>
+#include <stdlib.h>
+#include <string>
 #include "class.h"
 #include "Arbre.h"
+
+void M_creator(int taille_l , int taille_c , double densite , string nom_fichier);
+void rempl(int l , int c ,int valeur , string nom_fichier);
+void test(int , double );
+ 
+/*!
+     *  \brief La Fonction M_creator va permettre de crées des matrices aléatoirement 
+
+     *  \param[in] int l : Nombres de ligne  de la matrice
+     *  \param[in] int c : Nombres de colonne de la matrice 
+     *  \param[in] int densite : Densité de la matrice
+     *  \param[in] string nom_fichier : nom de la matrice
+*/ 
+void M_creator(int taille_l , int taille_c , double densite , string nom_fichier)
+{
+	ofstream fichier(nom_fichier.c_str(), ios::out | ios::app);
+	if(fichier)
+	{	
+		fichier<<taille_l<<endl;
+		fichier<<taille_c<<endl;
+	}
+	else
+		cerr<<"impossible d'ouvrir le fichier"<<endl;
+	int l , c , v ;
+	int n_e_t(taille_l * taille_c);
+	int n_e(densite * n_e_t);
+	int e_l [n_e] ;
+	int e_c [n_e] ;
+	for(int i(0); i < n_e ; i++)
+	{
+jump:
+		l = rand()%(taille_l+1);
+		c = rand()%(taille_c+1);
+		v = rand()%1000;
+		for(int j (0) ; j < i ; j++)
+		{
+			if(e_l [j] == l && e_c [j] == c)
+					goto jump;
+		}
+		e_l [i] = l;
+		e_c [i] = c;
+		rempl(l,c,v,nom_fichier);
+	}
+}
+/*!
+     *  \brief La Fonction rempl va permettre de remplir chague ligne d'une matrice ,donnez en argument , aléatoirement
+
+     *  \param[in] int l : Numéros de la ligne à remplir
+     *  \param[in] int c : Numéros de la colonne à remplir
+     *  \param[in] int valeur : Valeurs a mettre dans la ligne et la colonne
+     *  \param[in] string nom_fichier : nom de la matrice
+*/
+void rempl(int l , int c ,int valeur , string nom_fichier)
+{
+	ofstream fichier(nom_fichier.c_str(), ios::out | ios::app);
+	if(fichier)
+	{	
+		fichier<<l<<" "<<c<<" "<<valeur<<endl;	
+	}
+	else
+		cerr<<"Impossible d'ouvrir le fichier"<<endl;
+}
+/*!
+     *  \brief La Fonction test
+
+     *  \param[in] int nbr_l : Nombre de lignes et de colonnes 
+     *  \param[in] double densite: Densité de la matrice
+*/
+void test( int nbr_l, double densite )
+{
+	string operation = "";
+	Arbre Arithmetique ;
+	
+	Matrice * res = NULL;
+	M_creator(nbr_l,nbr_l,densite,"A");
+	M_creator(nbr_l,nbr_l,densite,"B");
+	operation = "A+B";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
+	operation = "A-B";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
+	operation = "A*B";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
+	operation = "A^2";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
+	operation = "A^t";
+	Arithmetique.Arithmetique(operation);
+	res = Arithmetique.resultat();
+	if(res != NULL)
+		delete res;
+	remove("A");
+	remove("B");
+}
 //Faire alias,PATH,Lignedecommande
 /*! \mainpage Documentation de Matrice creuse
  *
@@ -48,7 +148,7 @@
 /*!
  * \file main.cpp
  * \brief C'est le fichier apartir duquel je lance les differente fonction, et qui fait interface avec l'utilisateur
- * \author Benhachani Mohamed
+ * \author Benhachani Mohamed && Kustul Kudret(pour la partie test)
  * \version 1.0
  */
 
@@ -156,8 +256,8 @@ bool commande(int argc, char *argv[]){
      *  \brief La Fonction main
 
      *  \param[in] int argc : Nombre d'argument
-     *	\param[in] char *argv[] : Les argument
-     */
+     *  \param[in] char *argv[] : Les argument
+*/
 int main(int argc, char *argv[]){
 
 	if(argc >1){					//Partie exécuté si c'est une commande
@@ -165,10 +265,18 @@ int main(int argc, char *argv[]){
 			cout<<"Votre commande est incorrecte"<<endl;
 	}
 	else{						//Partie exécuté sui ce n'est pas une commande
-
-
-
-
+		char w [1] ;
+		cout<<"Voulez-vous effectuez les tests ?(y/n)"<<endl;
+		cin.getline(w,10000);
+		if(w[0] == 'y')
+		{
+			remove("A");
+			remove("B");
+			test(1000,0.0001);	
+			test(10000,0.000001);
+		
+			return 0;
+		}
 
 		cout<<"\n\nBienvenue, \nle programe vous permet de faire des operation entre Matrice, entre entier et entre matrice est entier. \n\nLes Matrice creuse doivent etre contenue dans un ficher de type LVC avec au debut du fichier la hauteur et largeur du fichier, \nle noms des fichier ne doivent pas commencer par un chiffre ou un symbole d'une operation .\n\n\nLes operation disponible sont entre Matrice : \n		Matrice.txt + Matrice2.txt (retourne la somme de deux matrice si leur taille sont identique)\n		Matrice.txt - Matrice2.txt (retourne la soustration de deux matrice si leur taille sont identique)\n		Matrice.txt * Matrice2.txt (retourne le produit de deux matrice si hauteur de Matrice.txt est eguale a la largeur de la seconde )\n		Matrice.txt # Matrice2.txt (retourne le produit terme a terme de deux matrice)\n		Matrice.txt ^ t (retourne la transposé de Matrice.txt avec t ou T )\n\n\nLes operation disponible sont entre Entier : \n		entier + entier (retourne la somme de deux entier)\n		entier - entier (retourne la soustration de deux entier)\n		entier * entier (retourne le produit de deux entier)\n		entier / entier (retourne le resultat de la division entiere des entier)\n		entier \% entier (retourne le modulo)\n		entier ^ entier2 (retourne entier pluissance entier2)\n\n\nLes operation disponible sont entre une Matrice et un entier: \n		entier * Matrice.txt (retourne la Matrice fois pour chaque terme l'entier)\n		Matrice.txt ^ entier (retourne la  Matrice.txt a la puissance de l'entier)\n\n\n\nEn cas d'erreur :\n	Si une operation entre deux entier n'existe pas un 0 sera retourner et l'operation continura un message d'avertissement sera envoyer.\n	Si une operation entre deux Matrice n'existe pas l'operation sera annule.\n	Si une operation entre une Matrice et un entier n'existe pas la Matrice sera retourner et l'operation continura un message d'avertissement sera envoyer.\n\n\n\nCas special :\n	Si le resultat de l'expression est un entier alors je cree une Matrice carre de largeur 1 contenant le resulat\n	Il est impossible de faire la puissance d'une Matrice qui ce nomerai T ou t\n\n\nTableau des priorite croissant:\n\n------------------------\n| Operateur | Priorite |\n------------------------\n|     -     |     0    |\n------------------------\n|     +     |     0    |\n------------------------\n|     %     |     0    |\n------------------------\n|     #     |     1    |\n------------------------\n|     *     |     2    |\n------------------------\n|     /     |     2    |\n------------------------\n"<<endl;
 	
@@ -275,29 +383,5 @@ int main(int argc, char *argv[]){
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
