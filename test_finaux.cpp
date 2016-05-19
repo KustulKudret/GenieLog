@@ -28,7 +28,7 @@ void M_creator(int taille_l , int taille_c , double densite , string nom_fichier
 jump:
 		l = rand()%(taille_l+1);
 		c = rand()%(taille_c+1);
-		v = rand()%1000;
+		v = rand()%100;
 		for(int j (0) ; j < i ; j++)
 		{
 			if(e_l [j] == l && e_c [j] == c)
@@ -54,8 +54,8 @@ int main()
 	srand (time(NULL));
 	remove("A.txt");
 	remove("B.txt");
-	M_creator(100,1000,0.0001,"A.txt");
-	M_creator(100,1000,0.001,"B.txt");
+	M_creator(1000,1000,0.0001,"A.txt");
+	M_creator(1000,1000,0.001,"B.txt");
 	
 	return 0;
 }
