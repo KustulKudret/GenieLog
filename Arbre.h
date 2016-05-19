@@ -45,12 +45,14 @@ struct Noeud {
 class Arbre{
 
 	Noeud * R;
-
+	string Path;
+	string ** alias;
+	int nb_max_alias,nb_alias;
 	public:
 	/*!
 	*  \brief Constructeur de la classe Arbre.
 	*/
-	Arbre();
+	Arbre(string chemin="",int tnb_max_alias=50);
  
     /*!
      *  \brief Destructeur de la classe Arbre.
@@ -74,6 +76,32 @@ class Arbre{
      *  \return La Matrice Resulatante  de l'expression Arithmetique
      */
 	Matrice * resultat();
+	/*!
+     *  \brief Ajoute un alias dans la matrice alias
+     *
+     *  \param[in] string & original :  string qui devra etre substitué
+     *  \param[in] string & objectif :  string qui va substitué l'ancien
+     *	\return True si l'operation est possible False sinon
+     */
+	bool add_alias(string & original,string & objectif);
+    /*!
+     *  \brief Supprime un alias dans la matrice alias
+     *
+     *  \param[in] int num : numero de l'alias
+     *	\return True si l'operation est possible False sinon
+     */
+	bool suppr_alias(int num);
+    /*!
+     *  \Affiche la matrice d'alias
+     *
+     */
+	void afficher_alias();
+    /*!
+     *  \brief Substitue les string en raport avec les alias
+     *
+     *  \param[in,out] string & s : string que je recherche dans alias pour le substitué
+     */
+	void substitue(string & s);
     /*!
      *  \brief Methode qui renvoie l'importance d'un operateur
      *

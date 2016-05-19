@@ -40,9 +40,16 @@ void to_string(string & s,int a){
 	/*!
 	*  \brief Constructeur de la classe Arbre.
 	*/
-Arbre::Arbre(){
+Arbre::Arbre(string chemin,int tnb_max_alias){
 
 	R=NULL;
+	Path=chemin;
+	nb_max_alias=tnb_max_alias;
+	nb_alias=0;
+	alias=new string * [2];
+
+	alias[0] = new string [nb_max_alias];
+	alias[1] = new string [nb_max_alias];
 }
  /*!
      *  \brief Fonction qui supprime les Noeud parcouru apartir de R
@@ -65,6 +72,10 @@ Arbre::~Arbre(){
 
 	supprime(R);
 	R=NULL;
+
+	delete [] alias[0];
+	delete [] alias[1];
+	delete [] alias;
 }
 
 //----------------------Saisie d'un Nouveau Noeud---------------------
@@ -157,6 +168,65 @@ int Arbre::importance(char car){
 
 
 }
+ /*!
+     *  \brief Substitue les string en raport avec les alias
+     *
+     *  \param[in,out] string & s : string que je recherche dans alias pour le substitué
+     */
+void Arbre::substitue(string & s){
+
+	for(int i=0;i<nb_alias;i++)
+		if(alias[0][i]==s)
+			s=alias[1][i];
+} 
+/*!
+     *  \brief Ajoute un alias dans la matrice alias
+     *
+     *  \param[in] string & original :  string qui devra etre substitué
+     *  \param[in] string & objectif :  string qui va substitué l'ancien
+     *	\return True si l'operation est possible False sinon
+     */
+bool Arbre::add_alias(string & original,string & objectif){
+	
+	if(nb_alias+1 == nb_max_alias)
+		return false;
+	
+	
+	alias[0][nb_alias]=original;
+	alias[1][nb_alias]=objectif;
+	nb_alias++;
+
+	return true;
+
+
+}
+/*!
+     *  \brief Supprime un alias dans la matrice alias
+     *
+     *  \param[in] int num : numero de l'alias
+     *	\return True si l'operation est possible False sinon
+     */
+bool Arbre::suppr_alias(int num){
+	
+	if(num<0 || num>=nb_alias)
+		return false;
+	nb_alias--;
+	for(int i=num;i<nb_alias;i++){
+		alias[0][i]=alias[0][i+1];
+		alias[1][i]=alias[1][i+1];			
+	}
+	return true;
+}
+/*!
+     *  \Affiche la matrice d'alias
+     *
+     */
+void Arbre::afficher_alias(){
+	
+	for(int i=0;i<nb_alias;i++){
+		cout<<"Alias ["<<i<<"] = "<<alias[0][i]<<" : "<<alias[1][i]<<endl;			
+	}
+}
   /*!
      *  \brief Methode qui permet de remplir l'Arbre Arithmetique apartir d'une expression, tant que cette expression est correcte.
      *  En cas d'expession Arithmetique incorrecte le contenu de l'Arbre n'est pas detruit.
@@ -180,23 +250,25 @@ bool Arbre::Prior(string exp){
 			
 			if(!nomf.empty()){							//Si y'a un nom de fichier 
 
-
-				if(operateur[0] == '/' && atoi(&nomf[0])==0){
+				if(operateur[0] == '/' && atoi(&nomf[0])==0){				//Si c'est une division par zero je retourne false
 					cerr<<"Division par 0"<<endl;
 					return false;
 
 				}
-				saisie(nomf,priorite+100);			
+				substitue(nomf);						//Je substitue avec les alias
+				if(nomf[0] < '0' || nomf[0] > '9')				//Si c'est un nom de fichier alors j'ajoute le chemin
+					nomf=Path+nomf;
+
+				saisie(nomf,priorite+100);					//enfin je saisie le chemin vers le fichier			
 				nomf="";
-				if(negatif > 0){
+				if(negatif > 0){						//Si il y'a eu des negatif je note le fait qu'une operation a etait fait
 					negatif--;
 					priorite-=100;
-				
 				}
 			}else{
 
-				if(exp[i]=='-' || exp[i]=='+'){
-					priorite+=100;
+				if(exp[i]=='-' || exp[i]=='+'){					//Si ni y'a pas de nom de fichier 
+					priorite+=100;						//et qu'il y'a un signe alors je met 0 (signe) (prochain entrant)
 					operateur=exp[i];
 					saisie(operateur,priorite+importance(exp[i]));
 					saisie("0",priorite+100);
@@ -205,17 +277,18 @@ bool Arbre::Prior(string exp){
 					negatif++;
 				
 				}
-				if(exp[i]=='*' || exp[i]=='/' || exp[i]=='^' || exp[i]=='%' || exp[i]=='#')
+				if(exp[i]=='*' || exp[i]=='/' || exp[i]=='^' || exp[i]=='%' || exp[i]=='#')//enfin si c'est un autre operateur sans operande je return false
 					return false;
 
 			}
-			
-			if(exp[i-1]==')' )
+								
+			if(exp[i-1]==')' )			//Si c'est precedament il y'a eu une fin de paranthese alors je diminue la priorite
 				priorite-=100;
 
-			operateur=exp[i];
+			operateur=exp[i];			//je saisie l'operateur dans l'arbre	
 			saisie(operateur,priorite+importance(exp[i]));
-			while(exp[i+1]=='-' || exp[i+1]=='+'){
+
+			while(exp[i+1]=='-' || exp[i+1]=='+'){		//temp qu'il y'a des signe je les met dans l'arbre
 					priorite+=100;
 					operateur=exp[i+1];
 					saisie(operateur,priorite+importance(exp[i+1]));
@@ -225,28 +298,32 @@ bool Arbre::Prior(string exp){
 					negatif++;
 				
 			}
-			if(exp[i+1]=='*' || exp[i+1]=='/' || exp[i+1]=='^' || exp[i+1]=='%' || exp[i+1]=='#')
-				return false;
-			
+			if(exp[i+1]=='*' || exp[i+1]=='/' || exp[i+1]=='^' || exp[i+1]=='%' || exp[i+1]=='#')//enfin si c'est un autre operateur sans operande je return false
+				return false;	
 		}
-		else{
+		else{					//Si il y'a un debut de paranthese alors j'augmente la priorite
 			if(exp[i]=='(' )
 				priorite+=100;
-			else
+			else				//Sinon si c'est pas un eparanthese ou un espace je remplie nomf 
 				if(exp[i]!=')' && exp[i]!=' ')
-					nomf+=exp[i];
-
-			
-
+					nomf+=exp[i];	
 		}
 	}
-	if(nomf.empty())
-		return false;
-	if(operateur[0] == '/' && atoi(&nomf[0])==0){
+
+	if(nomf.empty())				//Si ça ne ce termine pas par un opérande 
+		return false;					//je retourne false
+
+	if(operateur[0] == '/' && atoi(&nomf[0])==0){   // Si division par zero je retourne false
 		cerr<<"Division par 0"<<endl;
 		return false;
 
 	}
+
+	substitue(nomf);				//Pareil que précédamment avant la saisie
+
+	if(nomf[0] < '0' || nomf[0] > '9')
+		nomf=Path+nomf;
+
 	saisie(nomf,priorite+100);
 
 	return true;			
@@ -339,7 +416,6 @@ long int calcul(long int a,char operateur,long int b,bool & no_error){
 		case '/':
 			if(b!=0)
 				return a/b;
-
 			cerr<<"Division par 0 "<<endl;
 			no_error = false;
 				
@@ -424,6 +500,11 @@ Matrice * calcul(int a,char operateur,Matrice * b){
 			delete b ;
 			return tmp; 
 			break;
+		case '|':
+			tmp = b->transposer();
+			delete b ;
+			return tmp; 
+			break;
 				
 	}
 	cerr << "Il impossible de faire " << a << " " << operateur << " une Matrice cette operation a donc etait annule"<<endl;
@@ -453,11 +534,25 @@ Matrice * calcul(Matrice * a,char operateur,int b){
 
 Matrice * opere_Matrice(Noeud * R,bool & no_error){
 
-	if (R->fg!=NULL && R->fd!=NULL){
+	if (R->fg!=NULL && R->fd!=NULL){	//Si Noeud n'est pas une feuille
 
 		Matrice * tmp;
+		if(R->info[0]=='^'){							//Gestion des cas de la transposé donc si Matrice.txt ^ t
+			if((R->fg->info[0] >= 't'|| R->fg->info[0] >= 'T') && (R->fg->info.length() == 1 || R->fg->info[1] == ' ')){
+				R->fg->info[0]='0';
+				R->info[0]='|'; 
+		
+			}else
+				if((R->fd->info[0] >= 't'|| R->fd->info[0] >= 'T') && (R->fd->info.length() == 1 || R->fd->info[1] == ' ')){
+					R->fd->info[0]='0';
+					R->info[0]='|'; 
+		
+				}
 
-		if(R->fg->info[0] >= '0' && R->fg->info[0] <= '9'){
+		}
+			//Fin de la Gestion de la transposé
+
+		if(R->fg->info[0] >= '0' && R->fg->info[0] <= '9'){					//Si a gauche c'est un nombre
 			tmp=calcul(atoi(&R->fg->info[0]),R->info[0],opere_Matrice(R->fd,no_error));
 			if(tmp == NULL && no_error){
 				cerr<<"Il est impossible de faire "<<R->fg->info <<" "<<R->info[0] <<" "<< R->fd->info<<endl;
@@ -465,14 +560,14 @@ Matrice * opere_Matrice(Noeud * R,bool & no_error){
 			}
 			return tmp;
 		}
-		if(R->fd->info[0] >= '0' && R->fd->info[0] <= '9'){
+		if(R->fd->info[0] >= '0' && R->fd->info[0] <= '9'){					//Parei lmais a droite
 			tmp= calcul(opere_Matrice(R->fg,no_error),R->info[0],atoi(&R->fd->info[0]));
 			if(tmp == NULL && no_error){
 				cerr<<"Il est impossible de faire "<<R->fg->info <<" "<<R->info[0] <<" "<< R->fd->info<<endl;
 				no_error=false;
 			}
 			return tmp;
-		}
+		}											//Si les deux sont des matrice
 		tmp = calcul(opere_Matrice(R->fg,no_error),R->info[0],opere_Matrice(R->fd,no_error));
 		if(tmp == NULL && no_error){
 			cerr<<"Il est impossible de faire "<<R->fg->info <<" "<<R->info[0] <<" "<< R->fd->info<<endl;
@@ -481,7 +576,7 @@ Matrice * opere_Matrice(Noeud * R,bool & no_error){
 		return tmp;
 
 	}
-	//else
+	//else // Sinon
 	return new Matrice(R->info);
 		
 } 
@@ -497,11 +592,11 @@ bool opere(Noeud * R, int & c,bool & no_error){
 	
 	if (R->fg!=NULL && R->fd!=NULL){
 		bool r=opere(R->fd,c,no_error);
-		if(opere(R->fg,c,no_error) && r ){
-			c = calcul(atoi(&R->fg->info[0]),R->info[0],atoi(&R->fd->info[0]),no_error);
+		if(opere(R->fg,c,no_error) && r ){//Si des deux coté j'ai confirmé que c'était une opération entre entier
+			c = calcul(atoi(&R->fg->info[0]),R->info[0],atoi(&R->fd->info[0]),no_error);//Alors je calcule
 
 			R->info="";
-			to_string(R->info,c) ;
+			to_string(R->info,c) ;//Je met la valeur dans le Noeud qui contenait l'operation et je supprme les frere
 			delete R->fg;
 			delete R->fd;
 			R->fg=NULL;
@@ -513,7 +608,7 @@ bool opere(Noeud * R, int & c,bool & no_error){
 
 	}
 	//else
-	return (R->info[0] >= '0' && R->info[0] <= '9');
+	return (R->info[0] >= '0' && R->info[0] <= '9');//je return un bool a true si c'est un nombre
 		
 }
    /*!
@@ -528,16 +623,16 @@ Matrice * Arbre::resultat(){
 		if (R->fg != NULL && R->fd != NULL){
 			int c=0;
 			bool no_error=true;
-			opere(R,c,no_error);//Je fait toute les operation qui implique des int
+			opere(R,c,no_error); 		//Je fait toute les operation qui implique des int
 	
 
-			if(no_error){
-				if (R->fg != NULL && R->fd != NULL){
+			if(no_error){			//Si aucune erreur 
+				if (R->fg != NULL && R->fd != NULL){		//Si il reste des Noeud je fait operation Matrice
 
 					resultante = opere_Matrice(R,no_error);
 
 				}
-				if(resultante==NULL && no_error){
+				if(resultante==NULL && no_error ){		//Sinon je cree de 1*1 por envoyer le resultat
 					resultante=new Matrice(1,1);
 					resultante -> inserer(0, 0,c);
 				}
