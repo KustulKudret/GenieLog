@@ -1,5 +1,5 @@
 
-void M_creator(int taille_l , int taille_c , double densite , string nom_fichier)
+void M_creator(int taille_l , int taille_c , double densite , string nom_fichier)//Cette fonction créé des fichiers LVC contenant des matrice avec une taille et une densité passez en arguement mais le numeros des ligne et numeros des colonnes et les valeurs sont générez aléatoirement les fichiers créé sont stocké dans le meme répértoitres 
 {
 	ofstream fichier(nom_fichier.c_str(), ios::out | ios::app);
 	if(fichier)
