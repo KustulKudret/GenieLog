@@ -1,48 +1,64 @@
+/**
+ * \file class.h
+ * \Programme de Calcul de matrices creuses
+ * \author DRAME-Arouna & SALIAJ Adrian
+ * \version 1
+ * \ date 27
+ * 
+ * Programme de gestion de gestion de matrice creuse.
+ */
+#include <iostream>
+#include <string>
 #ifndef CLASS
-	#define CLASS
+#define CLASS
 
-	#include <iostream>
-	#include <string>
+#define PLUS 1
+#define MOINS 2
+#define FOIS 3
+#define DIVISER 4
+/**
+ * @brief type element contenant 3 valeurs L: indice ligne C: indice colonne et V : la valeur associ√©e
+ * @details 
+ * 
+ */
+struct element
+{
+	int L; // Ligne
+	int C; // Colonne
+	int V; // Valeur
+	element * suiv;
+};
 
-	struct element
-	{
-		int L; // Ligne
-		int C; // Colonne
-		int V; // Valeur
-		element * suiv;
-	};
-
-	class Matrice
-	{
-		element * tete;
-		int hauteur; // Nombre de lignes
-		int largeur; // Nombre de colonnes
-
-		public:
-			Matrice(int hauteur, int largeur);
-			Matrice(std::string nomFichier);
-
-			~ Matrice();
-
-			Matrice * fois(Matrice * seconde);
-			Matrice * moins(Matrice * seconde);
-			Matrice * plus(Matrice * seconde);
-			Matrice * produit(Matrice * seconde);
-			Matrice * puissance(int P);
-			Matrice * scalaireFois(int L);
-			Matrice * transposer();
-
-            void afficher(); // Uniquement pour les tests, ‡ supprimer ensuite
-
-			bool ecrire(std::string fichier); // ecrit lzs donnees d'une matrice sur un un fichier texte
-			void inserer(int ligne, int colonne, int valeur);
-			
-
-        private:
-            void supprimer(element * girafe);
-			element * vide(int ligne, int colonne);
-	};
-
-    Matrice * identite(int N);
+/**
+ * @brief Classe matrice 
+ * @details Contient un pointeur de type element
+ * 
+ * @param hauteur Nombre de ligne de la matrice
+ * @param largeur Nombre de colonne de la matrice
+ * 
+ * @return [description]
+ */
+class Matrice
+{   
+	element * tete;
+	int hauteur; // Nombre de ligne
+	int largeur; // Nombre de colonne
+	
+	public:
+		Matrice(int hauteur, int largeur);
+		Matrice(std::string nomFichier);
+		~ Matrice();
+		Matrice * plus(Matrice * seconde);
+		Matrice * moins(Matrice * seconde);
+		Matrice * fois(Matrice * seconde);
+	    void ecrire(std::string nomFichier);
+		void inserer(int ligne, int colonne, int valeur);
+		void supprimer(element * girafe);
+		void transposer();
+		
+		element * vide(int ligne, int colonne);
+		
+		Matrice * produit(Matrice * seconde);
+};
 
 #endif
