@@ -138,10 +138,10 @@ $(document).ready(function(){initNavTree('_arbre_8h_source.html','');});
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="class_arbre.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_arbre.html">Arbre</a>{</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_arbre.html#a9c359cc9cba4e98c9e2eb1087e3988f8">   47</a></span>&#160;    <a class="code" href="struct_noeud.html">Noeud</a> * <a class="code" href="class_arbre.html#a9c359cc9cba4e98c9e2eb1087e3988f8">R</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class_arbre.html#a2ef0a9ebd320b9535525be4e400d9900">   48</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="class_arbre.html#a2ef0a9ebd320b9535525be4e400d9900">Path</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_arbre.html#a4a02ead03d0447886ed757770f512652">   49</a></span>&#160;    <span class="keywordtype">string</span> ** <a class="code" href="class_arbre.html#a4a02ead03d0447886ed757770f512652">alias</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_arbre.html#a1f147240880f4e64ad1e41602a39f8f3">   50</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="class_arbre.html#a1f147240880f4e64ad1e41602a39f8f3">nb_max_alias</a>,nb_alias;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="struct_noeud.html">Noeud</a> * R;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">string</span> Path;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">string</span> ** alias;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> nb_max_alias,nb_alias;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="class_arbre.html">Arbre</a>(<span class="keywordtype">string</span> chemin=<span class="stringliteral">&quot;&quot;</span>,<span class="keywordtype">int</span> tnb_max_alias=50);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
@@ -196,20 +196,16 @@ $(document).ready(function(){initNavTree('_arbre_8h_source.html','');});
 <div class="ttc" id="struct_noeud_html_a4e238f559ea132dfa11ed4990833c6bd"><div class="ttname"><a href="struct_noeud.html#a4e238f559ea132dfa11ed4990833c6bd">Noeud::fd</a></div><div class="ttdeci">Noeud * fd</div><div class="ttdef"><b>Definition:</b> Arbre.h:39</div></div>
 <div class="ttc" id="struct_noeud_html_a8f44b0f72a0103a56c91fbbbacc07c8d"><div class="ttname"><a href="struct_noeud.html#a8f44b0f72a0103a56c91fbbbacc07c8d">Noeud::imp</a></div><div class="ttdeci">int imp</div><div class="ttdef"><b>Definition:</b> Arbre.h:37</div></div>
 <div class="ttc" id="struct_noeud_html"><div class="ttname"><a href="struct_noeud.html">Noeud</a></div><div class="ttdoc">Noeud pour la creation d&#39;un Arbre. </div><div class="ttdef"><b>Definition:</b> Arbre.h:34</div></div>
-<div class="ttc" id="class_arbre_html_a1f147240880f4e64ad1e41602a39f8f3"><div class="ttname"><a href="class_arbre.html#a1f147240880f4e64ad1e41602a39f8f3">Arbre::nb_max_alias</a></div><div class="ttdeci">int nb_max_alias</div><div class="ttdef"><b>Definition:</b> Arbre.h:50</div></div>
-<div class="ttc" id="class_matrice_html"><div class="ttname"><a href="class_matrice.html">Matrice</a></div><div class="ttdoc">Classe matrice. </div><div class="ttdef"><b>Definition:</b> class.h:37</div></div>
+<div class="ttc" id="class_matrice_html"><div class="ttname"><a href="class_matrice.html">Matrice</a></div><div class="ttdoc">Classe matrice. </div><div class="ttdef"><b>Definition:</b> class.h:33</div></div>
 <div class="ttc" id="struct_noeud_html_ac4459326b22ad2fa124c5803542777fa"><div class="ttname"><a href="struct_noeud.html#ac4459326b22ad2fa124c5803542777fa">Noeud::info</a></div><div class="ttdeci">string info</div><div class="ttdef"><b>Definition:</b> Arbre.h:36</div></div>
-<div class="ttc" id="class_arbre_html_a9c359cc9cba4e98c9e2eb1087e3988f8"><div class="ttname"><a href="class_arbre.html#a9c359cc9cba4e98c9e2eb1087e3988f8">Arbre::R</a></div><div class="ttdeci">Noeud * R</div><div class="ttdef"><b>Definition:</b> Arbre.h:47</div></div>
-<div class="ttc" id="class_arbre_html_a4a02ead03d0447886ed757770f512652"><div class="ttname"><a href="class_arbre.html#a4a02ead03d0447886ed757770f512652">Arbre::alias</a></div><div class="ttdeci">string ** alias</div><div class="ttdef"><b>Definition:</b> Arbre.h:49</div></div>
 <div class="ttc" id="class_arbre_html"><div class="ttname"><a href="class_arbre.html">Arbre</a></div><div class="ttdoc">Classe representant une expression Arithmetique dans un Arbre. </div><div class="ttdef"><b>Definition:</b> Arbre.h:45</div></div>
-<div class="ttc" id="class_arbre_html_a2ef0a9ebd320b9535525be4e400d9900"><div class="ttname"><a href="class_arbre.html#a2ef0a9ebd320b9535525be4e400d9900">Arbre::Path</a></div><div class="ttdeci">string Path</div><div class="ttdef"><b>Definition:</b> Arbre.h:48</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="_arbre_8h.html">Arbre.h</a></li>
-    <li class="footer">Généré le Vendredi 20 Mai 2016 16:56:15 pour Matrice creuse par
+    <li class="footer">Généré le Vendredi 20 Mai 2016 18:51:43 pour Matrice creuse par
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

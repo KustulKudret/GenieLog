@@ -11,10 +11,5 @@ var class_arbre =
     [ "resultat", "class_arbre.html#a02466d2ce8d36c5ce13297f0c0ab5e6a", null ],
     [ "saisie", "class_arbre.html#a3596009251c37827a76a943ed300bb59", null ],
     [ "substitue", "class_arbre.html#a4e5d9086652b81b4f0806fbea851b59e", null ],
-    [ "suppr_alias", "class_arbre.html#a965f59c3292ee77ab5d3e8176200224c", null ],
-    [ "alias", "class_arbre.html#a4a02ead03d0447886ed757770f512652", null ],
-    [ "nb_alias", "class_arbre.html#ab7d2daa5729cbf6a03724b6189f74126", null ],
-    [ "nb_max_alias", "class_arbre.html#a1f147240880f4e64ad1e41602a39f8f3", null ],
-    [ "Path", "class_arbre.html#a2ef0a9ebd320b9535525be4e400d9900", null ],
-    [ "R", "class_arbre.html#a9c359cc9cba4e98c9e2eb1087e3988f8", null ]
+    [ "suppr_alias", "class_arbre.html#a965f59c3292ee77ab5d3e8176200224c", null ]
 ];

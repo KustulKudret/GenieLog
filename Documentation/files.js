@@ -5,10 +5,7 @@ var files =
       [ "Noeud", "struct_noeud.html", "struct_noeud" ],
       [ "Arbre", "class_arbre.html", "class_arbre" ]
     ] ],
-    [ "class.cpp", "class_8cpp.html", null ],
-    [ "class.h", "class_8h.html", [
-      [ "element", "structelement.html", "structelement" ],
-      [ "Matrice", "class_matrice.html", "class_matrice" ]
-    ] ],
+    [ "class.cpp", "class_8cpp.html", "class_8cpp" ],
+    [ "class.h", "class_8h.html", "class_8h" ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ]
 ];
