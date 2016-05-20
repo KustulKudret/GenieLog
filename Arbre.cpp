@@ -17,7 +17,7 @@
 /*!
  * \file Arbre.cpp
  * \brief Fonction lié a Arbre
- * \author Benhachani Mohamed
+ * \author BENHACHANI Mohamed et Kustul Kudret
  * \version 1.0
  */
 #include "Arbre.h"

@@ -25,7 +25,7 @@ using namespace std;
 /*!
  * \file Arbre.h
  * \brief Resolution d'une expression Arithmetique
- * \author Benhachani Mohamed
+ * \author BENHACHANI Mohamed et Kustul Kudret
  * \version 1.0
  */
 /*! \struct Noeud
