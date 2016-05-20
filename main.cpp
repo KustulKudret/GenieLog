@@ -95,8 +95,8 @@ void test( int nbr_l, double densite )
 	Arbre Arithmetique ;
 	
 	Matrice * res = NULL;
-	M_creator(nbr_l,nbr_l,densite,"A");//crétion de deux matrices avec des valueur , numéros de ligne et numéros de colonne
-	M_creator(nbr_l,nbr_l,densite,"B");//aléatoires mais avec une taille défini pour évitez un disfonctionnement
+	M_creator(nbr_l,nbr_l,densite,"A");
+	M_creator(nbr_l,nbr_l,densite,"B");
 	operation = "A+B";
 	Arithmetique.Arithmetique(operation);
 	res = Arithmetique.resultat();
@@ -106,16 +106,10 @@ void test( int nbr_l, double densite )
 	operation = "A*B";
 	Arithmetique.Arithmetique(operation);
 	res = Arithmetique.resultat();
-	operation = "A^2
-	Arithmetique.Arithmetique(operation);
-	res = Arithmetique.resultat();
-	operation = "B^2";
+	operation = "A^2";
 	Arithmetique.Arithmetique(operation);
 	res = Arithmetique.resultat();
 	operation = "A^t";
-	Arithmetique.Arithmetique(operation);
-	res = Arithmetique.resultat();
-	operation = "B^t";
 	Arithmetique.Arithmetique(operation);
 	res = Arithmetique.resultat();
 	operation="(((((A+B)#A)*B)*(1+2*3^4/18+5*7+9+21*3/7+9*3^2-5-2-5^2*2/5+1))^2)^t";
@@ -203,15 +197,19 @@ bool commande(int argc, char *argv[]){
 				num=atoi(argv[i]);
 		}
 		if(tmp == "-e")
+		{
 			if(++i<argc)
 				expression=argv[i];
 			else
 				return false;
+		}	
 		if(tmp == "-d")
+		{
 			if(++i<argc)
 				destination=argv[i];
 			else
 				return false;
+		}	
 	}
 
 	Arbre Arithmetique(Path,num);
