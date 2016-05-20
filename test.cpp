@@ -1,4 +1,10 @@
-
+/*!
+     *  \brief La Fonction M_creator va permettre de crées des matrices aléatoirement 
+     *  \param[in] int l : Nombres de ligne  de la matrice
+     *  \param[in] int c : Nombres de colonne de la matrice 
+     *  \param[in] int densite : Densité de la matrice
+     *  \param[in] string nom_fichier : nom de la matrice
+*/ 
 void M_creator(int taille_l , int taille_c , double densite , string nom_fichier)//Cette fonction créé des fichiers LVC contenant des matrice avec une taille et une densité passez en arguement mais le numeros des ligne et numeros des colonnes et les valeurs sont générez aléatoirement les fichiers créé sont stocké dans le meme répértoitres 
 {
 	ofstream fichier(nom_fichier.c_str(), ios::out | ios::app);
@@ -30,7 +36,13 @@ jump:
 		rempl(l,c,v,nom_fichier);
 	}
 }
-
+/*!
+     *  \brief La Fonction rempl va permettre de remplir chague ligne d'une matrice ,donnez en argument , aléatoirement
+     *  \param[in] int l : Numéros de la ligne à remplir
+     *  \param[in] int c : Numéros de la colonne à remplir
+     *  \param[in] int valeur : Valeurs a mettre dans la ligne et la colonne
+     *  \param[in] string nom_fichier : nom de la matrice
+*/
 void rempl(int l , int c ,int valeur , string nom_fichier)
 {
 	ofstream fichier(nom_fichier.c_str(), ios::out | ios::app);
@@ -41,7 +53,11 @@ void rempl(int l , int c ,int valeur , string nom_fichier)
 	else
 		cerr<<"Impossible d'ouvrir le fichier"<<endl;
 }
-
+/*!
+     *  \brief La Fonction test
+     *  \param[in] int nbr_l : Nombre de lignes et de colonnes 
+     *  \param[in] double densite: Densité de la matrice
+*/
 void test( int nbr_l, double densite )
 {
 	string operation = "";
